@@ -2,7 +2,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const paddleHeight = 100, paddleWidth = 10, ballSize = 10;
-let paddleY = (canvas.height - paddleHeight) / 2, ballX = canvas.width / 2, ballY = canvas.height / 2, ballVelX = 5, ballVelY = 5;
+let paddleY = (canvas.height - paddleHeight) / 2, ballX = canvas.width / 2, ballY = canvas.height / 2, ballVelX = -5, ballVelY = 5;
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowUp' && paddleY > 0) paddleY -= 10;
@@ -12,21 +12,18 @@ document.addEventListener('keydown', (e) => {
 (function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw paddle and ball
+  // パドルとボールを描画
   ctx.fillStyle = 'white';
   ctx.fillRect(canvas.width - paddleWidth, paddleY, paddleWidth, paddleHeight);
-  ctx.fillRect(ballX, ballY, ballSize, ballSize);
+  ctx.fillRect(ballX - ballSize / 2, ballY - ballSize / 2, ballSize, ballSize);
 
-  // Update ball position and handle collisions
+  // ボールの位置を更新し、衝突を処理
   ballX += ballVelX;
   ballY += ballVelY;
 
-  if (ballY <= 0 || ballY + ballSize >= canvas.height) ballVelY = -ballVelY;
-  if (ballX + ballSize >= canvas.width - paddleWidth && ballY >= paddleY && ballY <= paddleY + paddleHeight) {
+  if (ballY <= 0 || ballY + ballSize / 2 >= canvas.height) ballVelY = -ballVelY;
+  if (ballX <= ballSize / 2 || (ballX + ballSize / 2 >= canvas.width - paddleWidth && ballY >= paddleY && ballY <= paddleY + paddleHeight)) {
     ballVelX = -ballVelX;
-  } else if (ballX + ballSize >= canvas.width) {
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
   }
 
   requestAnimationFrame(gameLoop);

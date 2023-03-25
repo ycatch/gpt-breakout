@@ -23,7 +23,7 @@ canvas.addEventListener('click', () => {
 function displayGameOver() {
   ctx.fillStyle = 'white';
   ctx.font = '48px sans-serif';
-  ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2);
+  ctx.fillText('Game Over', (canvas.width - ctx.measureText('Game Over').width) / 2, canvas.height / 2);
 }
 
 function resetGame() {
@@ -40,7 +40,7 @@ function gameLoop() {
 
   // Draw paddle and ball
   ctx.fillStyle = 'white';
-  ctx.fillRect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillRect(paddleX, canvas.height - paddleHeight - 80, paddleWidth, paddleHeight);
   ctx.fillRect(ballX - ballSize / 2, ballY - ballSize / 2, ballSize, ballSize);
 
   // Update ball position and handle collisions
@@ -50,7 +50,7 @@ function gameLoop() {
   if (ballX <= 0 || ballX + ballSize / 2 >= canvas.width) ballVelX = -ballVelX;
   if (ballY <= ballSize / 2) {
     ballVelY = -ballVelY;
-  } else if (ballY + ballSize / 2 >= canvas.height - paddleHeight - 1 && ballX >= paddleX - ballSize / 2 && ballX <= paddleX + paddleWidth + ballSize / 2) {
+  } else if (ballY + ballSize / 2 >= canvas.height - paddleHeight - 80 - 1 && ballX >= paddleX - ballSize / 2 && ballX <= paddleX + paddleWidth + ballSize / 2) {
     ballVelY = -ballVelY;
   } else if (ballY + ballSize / 2 >= canvas.height) {
     displayGameOver();

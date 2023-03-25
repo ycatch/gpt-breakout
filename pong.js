@@ -50,7 +50,12 @@ function gameLoop() {
   if (ballX <= 0 || ballX + ballSize / 2 >= canvas.width) ballVelX = -ballVelX;
   if (ballY <= ballSize / 2) {
     ballVelY = -ballVelY;
-  } else if (ballY + ballSize / 2 >= canvas.height - paddleHeight - 80 - 1 && ballX >= paddleX - ballSize / 2 && ballX <= paddleX + paddleWidth + ballSize / 2) {
+  } else if (
+    ballY + ballSize / 2 >= canvas.height - paddleHeight - 80 - 1 &&
+    ballY + ballSize / 2 <= canvas.height - paddleHeight - 80 + 1 &&
+    ballX >= paddleX - ballSize / 2 &&
+    ballX <= paddleX + paddleWidth + ballSize / 2
+  ) {
     ballVelY = -ballVelY;
   } else if (ballY + ballSize / 2 >= canvas.height) {
     displayGameOver();

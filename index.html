@@ -4,18 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Single Player Pong</title>
+    <title>Pong Game</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            margin: 0;
+        }
+
         canvas {
-            display: block;
-            margin: auto;
-            background-color: #000;
+            border: 1px solid white;
         }
     </style>
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="640" height="480"></canvas>
+    <div>
+        <h1 style="color: white; text-align: center;">Pong Game</h1>
+        <p style="color: white; text-align: center;">Click to start!</p>
+    </div>
+    <div>
+        <canvas id="gameCanvas" width="640" height="480"></canvas>
+    </div>
     <script src="pong.js"></script>
 </body>
 

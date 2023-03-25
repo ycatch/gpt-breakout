@@ -3,6 +3,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const paddleHeight = 100, paddleWidth = 10, ballSize = 10;
 let paddleY = (canvas.height - paddleHeight) / 2, ballX = canvas.width / 2, ballY = canvas.height / 2, ballVelX = -5, ballVelY = 5;
+let gamePaused = false;
 
 canvas.addEventListener('mousemove', (e) => {
   const relativeY = e.clientY - canvas.getBoundingClientRect().top;
@@ -11,7 +12,15 @@ canvas.addEventListener('mousemove', (e) => {
   }
 });
 
+function displayGameOver() {
+  ctx.fillStyle = 'white';
+  ctx.font = '48px sans-serif';
+  ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2);
+}
+
 (function gameLoop() {
+  if (gamePaused) return;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // パドルとボールを描画
@@ -24,8 +33,14 @@ canvas.addEventListener('mousemove', (e) => {
   ballY += ballVelY;
 
   if (ballY <= 0 || ballY + ballSize / 2 >= canvas.height) ballVelY = -ballVelY;
-  if (ballX <= ballSize / 2 || (ballX + ballSize / 2 >= canvas.width - paddleWidth && ballY >= paddleY && ballY <= paddleY + paddleHeight)) {
+  if (ballX <= ballSize / 2) {
     ballVelX = -ballVelX;
+  } else if (ballX + ballSize / 2 >= canvas.width - paddleWidth && ballY >= paddleY && ballY <= paddleY + paddleHeight) {
+    ballVelX = -ballVelX;
+  } else if (ballX + ballSize / 2 >= canvas.width) {
+    displayGameOver();
+    gamePaused = true;
+    return;
   }
 
   requestAnimationFrame(gameLoop);

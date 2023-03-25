@@ -34,29 +34,29 @@ function resetGame() {
 }
 
 function gameLoop() {
-  if (gamePaused) return;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // パドルとボールを描画
-  ctx.fillStyle = 'white';
-  ctx.fillRect(canvas.width - paddleWidth, paddleY, paddleWidth, paddleHeight);
-  ctx.fillRect(ballX - ballSize / 2, ballY - ballSize / 2, ballSize, ballSize);
-
-  // ボールの位置を更新し、衝突を処理
-  ballX += ballVelX;
-  ballY += ballVelY;
-
-  if (ballY <= 0 || ballY + ballSize / 2 >= canvas.height) ballVelY = -ballVelY;
-  if (ballX <= ballSize / 2) {
-    ballVelX = -ballVelX;
-  } else if (ballX + ballSize / 2 >= canvas.width - paddleWidth && ballY >= paddleY && ballY <= paddleY + paddleHeight) {
-    ballVelX = -ballVelX;
-  } else if (ballX + ballSize / 2 >= canvas.width) {
-    displayGameOver();
-    gamePaused = true;
-    return;
-  }
-
-  requestAnimationFrame(gameLoop);
+    if (gamePaused) return;
+  
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+    // Draw paddle and ball
+    ctx.fillStyle = 'white';
+    ctx.fillRect(canvas.width - paddleWidth, paddleY, paddleWidth, paddleHeight);
+    ctx.fillRect(ballX - ballSize / 2, ballY - ballSize / 2, ballSize, ballSize);
+  
+    // Update ball position and handle collisions
+    ballX += ballVelX;
+    ballY += ballVelY;
+  
+    if (ballY <= 0 || ballY + ballSize / 2 >= canvas.height) ballVelY = -ballVelY;
+    if (ballX <= ballSize / 2) {
+      ballVelX = -ballVelX;
+    } else if (ballX + ballSize / 2 >= canvas.width) {
+      displayGameOver();
+      gamePaused = true;
+      return;
+    } else if (ballX + ballSize / 2 >= canvas.width - paddleWidth - 1 && ballY >= paddleY - ballSize / 2 && ballY <= paddleY + paddleHeight + ballSize / 2) {
+      ballVelX = -ballVelX;
+    }
+  
+    requestAnimationFrame(gameLoop);
 }
